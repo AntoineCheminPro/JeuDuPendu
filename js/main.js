@@ -50,23 +50,31 @@ do {
 
     // switch string motMasque to array
     motMasque = motMasque.split('');
+
+    // let a variable for evaluation of succes in finding a letter
     let tentative = motEnLettres.length;
+
     // for each value in motEnLettre input the new letter in case it was a good choice
     for (let i = 0 ; i < motEnLettres.length ; i++){
         (propositionDeLettre == motEnLettres[i] ?  motMasque[i] = propositionDeLettre : tentative -= 1 );
     }
     // switch array to string
     motMasque = motMasque.join('');
+    
     // tentative decrease by one point each time letter is not find, so it's positive number each time the letter choosed is in the word
     if(tentative === 0){
-        essaiRestant -= essaiRestant;
+        essaiRestant = essaiRestant - 1;
     }
 }
-while (motMasque !== MOTCHOISI || tentative === 0);
+while (motMasque !== MOTCHOISI && essaiRestant !== 0);
 
 
-(essaiRestant === 0 ? alert ("pendu !") : alert (`il reste ${essaiRestant} essai(s)`));
 
-alert(`BRAVO !  Le mot à trouver était : ${MOTCHOISI}. \n Il te restait ${essaiRestant} essai(s).`)
+if (essaiRestant === 0) {
+    alert (`pendu ! Le mot à trouver était : ${MOTCHOISI}.`)
+}
+else{
+    alert(`BRAVO !  Le mot à trouver était : ${MOTCHOISI}. \n Il te restait ${essaiRestant} essai(s).`)
+}
 
 
