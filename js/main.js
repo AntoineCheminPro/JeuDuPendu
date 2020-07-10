@@ -4,11 +4,14 @@
 // verifie que la saisie est une lettre et une seule
 // affichage du mot masqué et demande proposition de lettre
 function estUneLettre(proposition) {
-    while (proposition.length !== 1 && !proposition.match(/[a-z]/i)){
-        proposition = prompt (`${motMasque} \n quelle lettre proposes-tu?`);
+    do {
+        proposition = prompt (`${motMasque} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
     }
-    return proposition;
+    while (proposition.length !== 1 && !proposition.match(/[a-z]/i));
+return proposition;
 }
+
+
 // random an index and select it in words array
 function choixDuMot (){
     let indexDuMot = Math.floor(Math.random() * (listeDeMots.length - 0 +1));
@@ -21,34 +24,57 @@ return motAuHasard;
 // create a word list
 const listeDeMots = ["bienvenue", "brouillon", "carreau", "dragon", "esperluette", "facile", "fonction", "migraine"];
 
-// recensement des lettres déjà jouées
-const lettreTrouvee = [];
-const lettreProposee = [];
-const motChoisi = choixDuMot();
+// make the word to find as constant
+const MOTCHOISI = choixDuMot();
 
-let motMasque = "";
-
-// le jeu
+// the Game
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // welcome alert
 alert ("Bienvenue sur le jeu du pendu");
 
-// transformation du mot au hasard en chaine de caractères
-// puis en "_" ou en lettre affichée si le joueur à vu juste
-let motEnLettres = motChoisi.split('');
+let essaiRestant = 7;
 
-let vieSauve = 0;
-let propositionDeLettre = prompt (`${motMasque} \n quelle lettre proposes-tu?`); 
+// translate the word in an array in order to work with it
+let motEnLettres = MOTCHOISI.split('');
 
- for (let i = 0 ; i < motEnLettres.length ; i++){
-    if (estUneLettre(propositionDeLettre) === motEnLettres[i]){
-        motMasque += propositionDeLettre;
-        vieSauve += 1;
+let motMasque = "";
+for (let i in motEnLettres){
+    motMasque += "_";
+}
+
+// loop start here since win or loose
+do {
+    // ask for a letter and switch it to lower case as words are
+    let propositionDeLettre = estUneLettre().toLowerCase();
+
+    // switch string motMasque to array
+    motMasque = motMasque.split('');
+
+    // let a variable for evaluation of succes in finding a letter
+    let tentative = motEnLettres.length;
+
+    // for each value in motEnLettre input the new letter in case it was a good choice
+    for (let i = 0 ; i < motEnLettres.length ; i++){
+        (propositionDeLettre == motEnLettres[i] ?  motMasque[i] = propositionDeLettre : tentative -= 1 );
     }
-    else {
-    motMasque += "_ "
+    // switch array to string
+    motMasque = motMasque.join('');
+    
+    // tentative decrease by one point each time letter is not find, so it's positive number each time the letter choosed is in the word
+    if(tentative === 0){
+        essaiRestant = essaiRestant - 1;
     }
- }
+}
+while (motMasque !== MOTCHOISI && essaiRestant !== 0);
 
-console.log(motEnLettres);
+
+
+if (essaiRestant === 0) {
+    alert (`pendu ! Le mot à trouver était : ${MOTCHOISI}.`)
+}
+else{
+    alert(`BRAVO !  Le mot à trouver était : ${MOTCHOISI}. \n Il te restait ${essaiRestant} essai(s).`)
+}
+
+
