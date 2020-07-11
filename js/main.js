@@ -3,12 +3,14 @@
 
 // verifie que la saisie est une lettre et une seule
 // affichage du mot masqué et demande proposition de lettre
-function estUneLettre(proposition) {
+function estUneLettre() {
+    // proposition = prompt (`${motMasque} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
     do {
         proposition = prompt (`${motMasque} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
     }
     while (proposition.length !== 1 && !proposition.match(/[a-z]/i));
-return proposition;
+    // console.log(proposition);
+    return proposition;
 }
 
 // random an index and select it in words array
@@ -21,15 +23,15 @@ return motAuHasard;
 function reponse(stopOuEncore){
     do {
         stopOuEncore = prompt ("Entre j pour jouer \n r pour voir les régles \n q pour quitter").toLowerCase();
+        console.log(stopOuEncore);
     }
     while (stopOuEncore.length !== 1 && !stopOuEncore.match(/[a-z]/i));
 return stopOuEncore;
 }
 
-// Constantes
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // create a word list
-const listeDeMots = ["bienvenue", "brouillon", "carreau", "dragon", "esperluette", "facile", "fonction", "migraine","solution","pendu","horloge"];
+const listeDeMots = ["bienvenue", "brouillon", "carreau", "dragon", "esperluette", "facile", "fonction", "migraine","solution","pendu", "horloge", "jouet", "chien", "boucle",
+"cigarette", "mouchoir", "escargot", "filtre", "victoire"];
 
 // the Game
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -37,7 +39,7 @@ let essaiRestant;
 let motMasque;
 let stopOuEncore;
 
-while (reponse(stopOuEncore) == "j") {
+do {
     // reponse = prompt ("Entre j pour jouer \n r pour voir les régles \n q pour quitter").toLowerCase();
     console.log (reponse());
     // welcome alert
@@ -70,7 +72,7 @@ console.log(motChoisi);
         let tentative = motEnLettres.length;
         // for each value in motEnLettre input the new letter in case it was a good choice
         for (let i = 0 ; i < motEnLettres.length ; i++){
-            (propositionDeLettre == motEnLettres[i] ?  motMasque[i] = propositionDeLettre : tentative -= 1 );
+            (propositionDeLettre == motEnLettres[i] ?  motMasque[i] = propositionDeLettre  : tentative -= 1 );
         }
         // switch array to string
         motMasque = motMasque.join('');
@@ -90,6 +92,6 @@ console.log(motChoisi);
     }
     reponse();
 
-}
+} while (reponse() === "j" && reponse() !== "q" && reponse() !== "r" );
 
 
