@@ -6,7 +6,8 @@
 function estUneLettre() {
     // proposition = prompt (`${motMasque} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
     do {
-        proposition = prompt (`${motMasque} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
+        let motAffiche = motMasque.split("").join(" ") ;
+        proposition = prompt (`${motAffiche} \n Il te reste ${essaiRestant} essai(s). \n Quelle lettre proposes-tu?`);
     }
     while (proposition.length !== 1 && !proposition.match(/[a-z]/i));
     // console.log(proposition);
@@ -38,10 +39,15 @@ const listeDeMots = ["bienvenue", "brouillon", "carreau", "dragon", "esperluette
 let essaiRestant;
 let motMasque;
 let stopOuEncore;
-
+let choixEntrant = reponse();
 do {
     // reponse = prompt ("Entre j pour jouer \n r pour voir les régles \n q pour quitter").toLowerCase();
-    console.log (reponse());
+    if (choixEntrant === "q"){
+        break;
+    }
+    else if (choixEntrant === "r"){
+        alert ("Le Pendu est un jeu consistant à trouver un mot en devinant quelles sont les lettres qui le composent. \n Ici on dispose de 7 essais. \n Un essai est oté si la lettre proposée n'est pas dans le mot.")
+    }
     // welcome alert
     alert ("Bienvenue sur le jeu du pendu");
 
@@ -90,8 +96,6 @@ console.log(motChoisi);
     else{
         alert(`BRAVO !  Le mot à trouver était : ${motChoisi}. \n Il te restait ${essaiRestant} essai(s).`)
     }
-    reponse();
-
 } while (reponse() === "j" && reponse() !== "q" && reponse() !== "r" );
 
 
